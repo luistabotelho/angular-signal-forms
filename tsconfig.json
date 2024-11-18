@@ -15,6 +15,11 @@
     "declaration": false,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
+    "paths": {
+      "signal-forms": [
+        "./dist/signal-forms"
+      ]
+    },
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
