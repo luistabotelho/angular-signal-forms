@@ -1,0 +1,1 @@
+export type BaseType = Record<string | number | symbol, unknown>
