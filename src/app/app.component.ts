@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { isSignalFormValid, signalForm, signalFormValue, resetSignalForm } from 'signal-forms';
 
+interface DataType extends Record<string | number | symbol, unknown> {
+  field1: string
+  dateField: Date
+}
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -12,7 +17,7 @@ import { isSignalFormValid, signalForm, signalFormValue, resetSignalForm } from 
 export class AppComponent {
   title = 'angular-signal-forms';
 
-  form = signalForm({
+  form = signalForm<DataType>({
     field1: {
       initialValue: ""
     },

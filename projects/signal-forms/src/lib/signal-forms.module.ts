@@ -1,6 +1,8 @@
 import { signal, computed } from "@angular/core"
 import { runValidators } from "./helpers/run-validators.helper"
-import { SignalFormOptions, SignalFormDefinition, SignalForm } from "./interfaces"
+import { SignalFormOptions } from "./interfaces/signal-forms-options.interface"
+import { SignalFormDefinition } from "./interfaces/signal-forms-definition.interface"
+import { SignalForm } from "./interfaces/signal-forms.interface"
 
 
 const signalFormOptionsDefaults: SignalFormOptions = {
