@@ -6,7 +6,7 @@ import { SignalForm } from "./interfaces/signal-forms.interface"
 
 
 const signalFormOptionsDefaults: SignalFormOptions = {
-    requireTouched: false
+    requireTouched: true
 }
 
 /**
