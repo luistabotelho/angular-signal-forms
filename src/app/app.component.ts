@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { isSignalFormValid, signalForm, signalFormValue, resetSignalForm } from 'signal-forms';
+import { signalForm, signalFormValue, isSignalFormValid, resetSignalForm } from '../../projects/signal-forms/src/public-api';
 
 interface DataType extends Record<string | number | symbol, unknown> {
   field1: string
