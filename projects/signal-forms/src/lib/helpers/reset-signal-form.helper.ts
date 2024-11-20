@@ -1,4 +1,4 @@
-import { SignalForm } from "../interfaces"
+import { SignalForm } from "../interfaces/signal-forms.interface"
 
 /**
  * Resets a SignalForm to it's initial values

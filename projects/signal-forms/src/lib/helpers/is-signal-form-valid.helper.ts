@@ -1,5 +1,5 @@
 import { Signal, computed } from "@angular/core"
-import { SignalForm } from "../interfaces"
+import { SignalForm } from "../interfaces/signal-forms.interface"
 
 /**
  * Creates a signal representing the SignalForm validity
