@@ -3,7 +3,6 @@ import { runValidators } from "./helpers/run-validators.helper"
 import { SignalFormOptions } from "./interfaces/signal-forms-options.interface"
 import { SignalFormDefinition } from "./interfaces/signal-forms-definition.interface"
 import { SignalForm } from "./interfaces/signal-forms.interface"
-import { State } from "./interfaces/state.interface"
 
 
 const signalFormOptionsDefaults: SignalFormOptions = {
