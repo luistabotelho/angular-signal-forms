@@ -1,0 +1,12 @@
+<input 
+type="text"
+(blur)="form.field1.touched.set(true)"
+[(ngModel)]="form.field1.currentValue">
+<br>
+Current Value: {{form.field1.currentValue()}}
+<br>
+Touched: {{form.field1.touched()}}
+<br>
+State: {{form.field1.state().state}} : {{form.field1.state().message}}
+<br>
+<button (click)="resetForm()">Reset Form</button>

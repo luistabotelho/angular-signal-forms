@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { signalForm, signalFormValue, isSignalFormValid, resetSignalForm } from '../../projects/signal-forms/src/public-api';
+import { FormsModule } from '@angular/forms';
 
-interface DataType extends Record<string | number | symbol, unknown> {
+interface DataType {
   field1: string
   dateField: Date
 }
@@ -10,7 +10,7 @@ interface DataType extends Record<string | number | symbol, unknown> {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -19,7 +19,12 @@ export class AppComponent {
 
   form = signalForm<DataType>({
     field1: {
-      initialValue: ""
+      initialValue: "",
+      validators: [
+        (val) => !val ? new Error("Required") : null,
+        (val) => !RegExp(/^[A-Z]{1}/).test(val) ? new Error("First letter must be upper case") : null,
+        (val) => val.length > 10 ? new Error("Must not exceed 10 characters") : null
+      ]
     },
     dateField: {
       initialValue: new Date()
