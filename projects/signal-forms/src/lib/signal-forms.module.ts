@@ -1,10 +1,14 @@
 import { signal, computed } from "@angular/core"
 import { runValidators } from "./helpers/run-validators.helper"
-import { SignalFormOptions, SignalFormDefinition, SignalForm } from "./interfaces"
+import { SignalFormOptions } from "./interfaces/signal-forms-options.interface"
+import { SignalFormDefinition } from "./interfaces/signal-forms-definition.interface"
+import { SignalForm } from "./interfaces/signal-forms.interface"
 
 
 const signalFormOptionsDefaults: SignalFormOptions = {
-    requireTouched: false
+    requireTouched: true,
+	defaultState: 'default',
+	errorState: 'error'
 }
 
 /**
@@ -13,7 +17,7 @@ const signalFormOptionsDefaults: SignalFormOptions = {
  * @param options An optional SignalFormOptions object
  * @returns a SignalForm
  */
-export function signalForm<T extends Record<string | number | symbol, unknown>>(
+export function signalForm<T>(
     initialValue: SignalFormDefinition<T>, 
     options: SignalFormOptions = signalFormOptionsDefaults
 ) {
@@ -26,13 +30,13 @@ export function signalForm<T extends Record<string | number | symbol, unknown>>(
 			touched: signal(false),
 			state: computed(() => {
 				if (options.requireTouched && !signalForm[key].touched()) {
-					return ['default', null]
+					return {state: options.defaultState, message: null}
 				}
 				let validationResult = runValidators(value.validators ?? [], signalForm[key].currentValue())
 				if (validationResult) {
-					return ['error', validationResult]
+					return {state: options.errorState, message: validationResult}
 				}
-				return ['default', null]
+				return {state: options.defaultState, message: null}
 			}),
 			valid: computed(() => !runValidators(value.validators ?? [], signalForm[key].currentValue()))
 		}

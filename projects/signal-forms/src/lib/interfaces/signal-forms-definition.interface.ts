@@ -1,8 +1,8 @@
-import { BaseType } from "./base-type.interface"
+import { ValidatorFunction } from "./validator-function.interface"
 
-export type SignalFormDefinition<T extends BaseType> = {
+export type SignalFormDefinition<T> = {
     [K in keyof T]: {
         initialValue: T[K],
-        validators?: Array<(value: T[K]) => Error | null>
+        validators?: Array<ValidatorFunction<T[K]>>
     }
 }

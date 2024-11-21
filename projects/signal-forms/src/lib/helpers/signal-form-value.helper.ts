@@ -1,5 +1,5 @@
 import { computed } from "@angular/core"
-import { SignalForm } from "../interfaces"
+import { SignalForm } from "../interfaces/signal-forms.interface"
 
 export function signalFormValue<T extends Record<string | number | symbol, unknown>>(signalForm: SignalForm<T>) {
 	return computed(() => {
