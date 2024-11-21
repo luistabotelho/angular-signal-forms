@@ -3,10 +3,13 @@ import { runValidators } from "./helpers/run-validators.helper"
 import { SignalFormOptions } from "./interfaces/signal-forms-options.interface"
 import { SignalFormDefinition } from "./interfaces/signal-forms-definition.interface"
 import { SignalForm } from "./interfaces/signal-forms.interface"
+import { State } from "./interfaces/state.interface"
 
 
 const signalFormOptionsDefaults: SignalFormOptions = {
-    requireTouched: true
+    requireTouched: true,
+	defaultState: 'default',
+	errorState: 'error'
 }
 
 /**
@@ -28,13 +31,13 @@ export function signalForm<T>(
 			touched: signal(false),
 			state: computed(() => {
 				if (options.requireTouched && !signalForm[key].touched()) {
-					return ['default', null]
+					return {state: options.defaultState, message: null}
 				}
 				let validationResult = runValidators(value.validators ?? [], signalForm[key].currentValue())
 				if (validationResult) {
-					return ['error', validationResult]
+					return {state: options.errorState, message: validationResult}
 				}
-				return ['default', null]
+				return {state: options.defaultState, message: null}
 			}),
 			valid: computed(() => !runValidators(value.validators ?? [], signalForm[key].currentValue()))
 		}

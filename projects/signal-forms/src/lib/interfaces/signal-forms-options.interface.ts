@@ -1,3 +1,5 @@
 export type SignalFormOptions = {
-    requireTouched: boolean
+    requireTouched: boolean,
+    defaultState: string,
+    errorState: string
 }
