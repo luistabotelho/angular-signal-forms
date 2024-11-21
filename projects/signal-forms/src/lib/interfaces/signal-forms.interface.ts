@@ -1,7 +1,6 @@
 import { Signal, WritableSignal } from "@angular/core"
-import { BaseType } from "./base-type.interface"
 
-export type SignalForm<T extends BaseType> = {
+export type SignalForm<T> = {
     [K in keyof T]: {
         initialValue: T[K],
         currentValue: WritableSignal<T[K]>,

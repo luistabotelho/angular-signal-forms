@@ -15,7 +15,7 @@ const signalFormOptionsDefaults: SignalFormOptions = {
  * @param options An optional SignalFormOptions object
  * @returns a SignalForm
  */
-export function signalForm<T extends Record<string | number | symbol, unknown>>(
+export function signalForm<T>(
     initialValue: SignalFormDefinition<T>, 
     options: SignalFormOptions = signalFormOptionsDefaults
 ) {
