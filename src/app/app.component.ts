@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { signalForm, signalFormValue, isSignalFormValid, resetSignalForm } from '../../projects/signal-forms/src/public-api';
+import { signalForm, signalFormValue, signalFormValid, resetSignalForm } from '../../projects/signal-forms/src/public-api';
 import { FormsModule } from '@angular/forms';
 import { signalFormErrors } from '../../projects/signal-forms/src/lib/helpers/signal-form-errors.helper';
 import { CommonModule } from '@angular/common';
@@ -38,8 +38,8 @@ export class AppComponent {
   })
 
   $formValue = signalFormValue(this.form)
-  $formValid = isSignalFormValid(this.form)
   $formErrors = signalFormErrors(this.form)
+  $formValid = signalFormValid(this.form)
 
   resetForm() {
     resetSignalForm(this.form)
