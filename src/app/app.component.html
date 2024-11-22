@@ -1,12 +1,34 @@
-<input 
-type="text"
-(blur)="form.field1.touched.set(true)"
-[(ngModel)]="form.field1.currentValue">
-<br>
-Current Value: {{form.field1.currentValue()}}
-<br>
-Touched: {{form.field1.touched()}}
-<br>
-State: {{form.field1.state().state}} : {{form.field1.state().message}}
-<br>
-<button (click)="resetForm()">Reset Form</button>
+<div>
+    <label for="field1">Text Input</label>
+    <input 
+    id="field1"
+    type="text"
+    (blur)="form.field1.touched.set(true)"
+    [(ngModel)]="form.field1.currentValue">
+    <br>
+    Touched: {{form.field1.touched()}}
+    <br>
+    State: {{form.field1.state().state}} : {{form.field1.state().message}}
+</div>
+<br><br>
+<div>
+    <label for="dateField">Date Input</label>
+    <input 
+    id="dateField"
+    type="datetime-local"
+    (blur)="form.dateField.touched.set(true)"
+    [(ngModel)]="form.dateField.currentValue"
+    >
+    <br>
+    Touched: {{form.dateField.touched()}}
+    <br>
+    State: {{form.dateField.state().state}} : {{form.dateField.state().message}}
+</div>
+<br><br>
+<div>
+    Current Value: {{$formValue() | json}}
+    <br>
+    All Errors: {{$formErrors() | json}}
+    <br><br>
+    <button (click)="resetForm()">Reset Form</button>
+</div>
