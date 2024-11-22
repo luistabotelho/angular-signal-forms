@@ -6,7 +6,7 @@ import { SignalForm } from "../interfaces/signal-forms.interface"
  * @param signalForm the SignalForm instance
  * @returns a boolean Signal representing the form validity
  */
-export function isSignalFormValid<T extends Record<string | number | symbol, unknown>>(signalForm: SignalForm<T>): Signal<boolean> {
+export function signalFormValid<T extends Record<string | number | symbol, unknown>>(signalForm: SignalForm<T>): Signal<boolean> {
 	return computed(() => {
 		for (let key of Object.keys(signalForm)) {
 			let field = signalForm[key]
