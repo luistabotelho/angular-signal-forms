@@ -9,4 +9,7 @@ Touched: {{form.field1.touched()}}
 <br>
 State: {{form.field1.state().state}} : {{form.field1.state().message}}
 <br>
+<br>
+Form Valid: {{$formValid()}}
+<br>
 <button (click)="resetForm()">Reset Form</button>
