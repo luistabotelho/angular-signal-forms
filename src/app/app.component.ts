@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 
 interface DataType {
   field1: string
+  field2: string
   dateField: string
 }
 
@@ -27,6 +28,9 @@ export class AppComponent {
         (val) => !RegExp(/^[A-Z]{1}/).test(val) ? new Error("First letter must be upper case") : null,
         (val) => val.length > 10 ? new Error("Must not exceed 10 characters") : null
       ]
+    },
+    field2: {
+      initialValue: ""
     },
     dateField: {
       initialValue: new Date().toISOString().slice(0, 16),

@@ -1,5 +1,6 @@
 <div>
     <label for="field1">Text Input</label>
+    <br>
     <input 
     id="field1"
     type="text"
@@ -10,9 +11,23 @@
     <br>
     State: {{form.field1.state().state}} : {{form.field1.state().message}}
 </div>
+<br><br><div>
+    <label for="field2">Text Input with no Validations</label>
+    <br>
+    <input 
+    id="field2"
+    type="text"
+    (blur)="form.field2.touched.set(true)"
+    [(ngModel)]="form.field2.currentValue">
+    <br>
+    Touched: {{form.field2.touched()}}
+    <br>
+    State: {{form.field2.state().state}} : {{form.field2.state().message}}
+</div>
 <br><br>
 <div>
     <label for="dateField">Date Input</label>
+    <br>
     <input 
     id="dateField"
     type="datetime-local"
