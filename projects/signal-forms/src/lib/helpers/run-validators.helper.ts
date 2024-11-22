@@ -6,7 +6,7 @@ import { ValidatorFunction } from "../interfaces/validator-function.interface"
  * @param currentValue the currentValue signal value
  * @returns The validation message of the failed validator
  */
-export function runValidators<T>(validators: Array<ValidatorFunction<T>>, currentValue: T): string | null {
+export function getValidatorResult<T>(validators: Array<ValidatorFunction<T>>, currentValue: T): string | null {
 	for (let validator of validators) {
 		let validationResult = validator(currentValue)
 		if (validationResult) {

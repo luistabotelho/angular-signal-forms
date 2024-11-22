@@ -1,5 +1,5 @@
 import { signal, computed } from "@angular/core"
-import { runValidators } from "./helpers/run-validators.helper"
+import { getValidatorResult } from "./helpers/run-validators.helper"
 import { SignalFormOptions } from "./interfaces/signal-forms-options.interface"
 import { SignalFormDefinition } from "./interfaces/signal-forms-definition.interface"
 import { SignalForm } from "./interfaces/signal-forms.interface"
@@ -26,19 +26,20 @@ export function signalForm<T>(
 		let value = initialValue[key]
 		signalForm[key] = {
 			initialValue: value.initialValue,
+			validators: value.validators ?? [],
 			currentValue: signal(value.initialValue),
 			touched: signal(false),
 			state: computed(() => {
 				if (options.requireTouched && !signalForm[key].touched()) {
 					return {state: options.defaultState, message: null}
 				}
-				let validationResult = runValidators(value.validators ?? [], signalForm[key].currentValue())
+				let validationResult = getValidatorResult(value.validators ?? [], signalForm[key].currentValue())
 				if (validationResult) {
 					return {state: options.errorState, message: validationResult}
 				}
 				return {state: options.defaultState, message: null}
 			}),
-			valid: computed(() => !runValidators(value.validators ?? [], signalForm[key].currentValue()))
+			valid: computed(() => !getValidatorResult(value.validators ?? [], signalForm[key].currentValue()))
 		}
 	}
 
