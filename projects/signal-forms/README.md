@@ -2,10 +2,10 @@
 
 A simple library to manage forms using signals. Use the provided signalForm<T>() function to create a new SignalForm<T>.
 
-> [!INFO]
+> [!NOTE]
 > If you have suggestions on how to improve this documentation, leave your feedback [here](https://github.com/luistabotelho/angular-signal-forms/issues)
 
-> [!INFO]
+> [!NOTE]
 > If you want to report a bug or suggest an improvement create an issue [here](https://github.com/luistabotelho/angular-signal-forms/issues)
 
 # Changelogs
