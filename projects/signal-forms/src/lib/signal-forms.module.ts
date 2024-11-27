@@ -3,13 +3,8 @@ import { getValidatorResult } from "./helpers/run-validators.helper"
 import { SignalFormOptions } from "./interfaces/signal-forms-options.interface"
 import { SignalFormDefinition } from "./interfaces/signal-forms-definition.interface"
 import { SignalForm } from "./interfaces/signal-forms.interface"
+import { signalFormOptionsDefaults } from "./config/defaults.config"
 
-
-const signalFormOptionsDefaults: SignalFormOptions = {
-    requireTouched: true,
-	defaultState: 'default',
-	errorState: 'error'
-}
 
 /**
  * Creates a new instance of SignalForm from a SignalFormDefinition
@@ -19,8 +14,13 @@ const signalFormOptionsDefaults: SignalFormOptions = {
  */
 export function signalForm<T>(
     initialValue: SignalFormDefinition<T>, 
-    options: SignalFormOptions = signalFormOptionsDefaults
+    options?: Partial<SignalFormOptions>
 ) {
+	const validatedOptions: SignalFormOptions = {
+		requireTouched: options?.requireTouched ?? signalFormOptionsDefaults.requireTouched,
+		defaultState: options?.defaultState ?? signalFormOptionsDefaults.defaultState,
+		errorState: options?.errorState ?? signalFormOptionsDefaults.errorState
+	}
 	let signalForm = {} as SignalForm<T>
 	for (let key in initialValue) {
 		let value = initialValue[key]
@@ -30,14 +30,14 @@ export function signalForm<T>(
 			currentValue: signal(value.initialValue),
 			touched: signal(false),
 			state: computed(() => {
-				if (options.requireTouched && !signalForm[key].touched()) {
-					return {state: options.defaultState, message: null}
+				if (validatedOptions.requireTouched && !signalForm[key].touched()) {
+					return {state: validatedOptions.defaultState, message: null}
 				}
 				let validationResult = getValidatorResult(value.validators ?? [], signalForm[key].currentValue())
 				if (validationResult) {
-					return {state: options.errorState, message: validationResult}
+					return {state: validatedOptions.errorState, message: validationResult}
 				}
-				return {state: options.defaultState, message: null}
+				return {state: validatedOptions.defaultState, message: null}
 			}),
 			valid: computed(() => !getValidatorResult(value.validators ?? [], signalForm[key].currentValue()))
 		}

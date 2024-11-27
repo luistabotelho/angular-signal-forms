@@ -7,6 +7,7 @@ import { SignalForm } from "./interfaces/signal-forms.interface"
 import { signalForm } from "./signal-forms.module"
 import { signalFormValid } from "./helpers/signal-form-valid.helper";
 import { signalFormValue } from "./helpers/signal-form-value.helper"
+import { signalFormOptionsDefaults } from "./config/defaults.config"
 
 interface ITestObject {
     field1: string
@@ -57,7 +58,7 @@ describe('signalForms', () => {
     })
 
     it('should require touched by default', () => {
-        expect(form.field3.state().state).toBe("default")
+        expect(form.field3.state().state).toBe(signalFormOptionsDefaults.defaultState)
     })
 
     it('should allow touched to be optional', () => {
@@ -72,6 +73,21 @@ describe('signalForms', () => {
 
     it('should return the validator message', () => {
         expect(customForm.field3.state().message).toBe("Must be after 2024-11-21")
+    })
+
+    it('should allow partial options', () => {
+        let form = signalForm({
+            test: {
+                initialValue: "",
+                validators: [
+                    val => !val ? new Error("Required") : null
+                ]
+            }
+        }, {
+            requireTouched: false
+        })
+        expect(form.test.touched()).toBeFalse()
+        expect(form.test.state().state).toBe(signalFormOptionsDefaults.errorState)
     })
 
     describe('resetSignalForm', () => {
