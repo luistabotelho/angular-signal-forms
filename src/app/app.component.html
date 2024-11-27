@@ -63,4 +63,8 @@
     All Errors: {{$formErrors() | json}}
     <br><br>
     <button (click)="resetForm()">Reset Form</button>
+    <br>
+    <button (click)="submit()">Submit</button>
+    <br>
+    <button (click)="submit()" [disabled]="!$formValid()">Submit If Valid</button>
 </div>
