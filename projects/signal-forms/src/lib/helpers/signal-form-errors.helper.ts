@@ -8,7 +8,7 @@ export function signalFormErrors<T>(form: SignalForm<T>) {
             let field = form[key]
             let validatorList = field.validators
             for (let validator of validatorList) {
-                let result = validator(field.currentValue())
+                let result = validator(field.currentValue(), form)
                 if (result) {
                     errors.push(`${key}: ${result.message}`)
                 }

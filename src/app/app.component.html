@@ -1,5 +1,5 @@
 <div>
-    <label for="field1">Text Input</label>
+    <label for="field1">Text Input 1</label>
     <br>
     <input 
     id="field1"
@@ -11,7 +11,22 @@
     <br>
     State: {{form.field1.state().state}} : {{form.field1.state().message}}
 </div>
-<br><br><div>
+<br><br>
+<div>
+    <label for="field1Child">Text Input 2 Depends on Text Input 1</label>
+    <br>
+    <input 
+    id="field1Child"
+    type="text"
+    (blur)="form.field1Child.touched.set(true)"
+    [(ngModel)]="form.field1Child.currentValue">
+    <br>
+    Touched: {{form.field1Child.touched()}}
+    <br>
+    State: {{form.field1Child.state().state}} : {{form.field1Child.state().message}}
+</div>
+<br><br>
+<div>
     <label for="field2">Text Input with no Validations</label>
     <br>
     <input 
