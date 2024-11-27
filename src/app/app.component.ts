@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { signalForm, signalFormValue, signalFormValid, resetSignalForm } from '../../projects/signal-forms/src/public-api';
+import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched } from '../../projects/signal-forms/src/public-api';
 import { FormsModule } from '@angular/forms';
 import { signalFormErrors } from '../../projects/signal-forms/src/lib/helpers/signal-form-errors.helper';
 import { CommonModule } from '@angular/common';
@@ -19,8 +19,6 @@ interface DataType {
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'angular-signal-forms';
-
   form = signalForm<DataType>({
     field1: {
       initialValue: "",
@@ -53,4 +51,12 @@ export class AppComponent {
   $formValid = signalFormValid(this.form)
 
   resetForm = () => resetSignalForm(this.form)
+  
+  submit() {
+    signalFormSetTouched(this.form)
+    if (!this.$formValid()) {
+      return
+    }
+    // submit to server
+  }
 }
