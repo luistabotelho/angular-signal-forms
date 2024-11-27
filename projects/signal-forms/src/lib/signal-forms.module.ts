@@ -33,13 +33,13 @@ export function signalForm<T>(
 				if (validatedOptions.requireTouched && !signalForm[key].touched()) {
 					return {state: validatedOptions.defaultState, message: null}
 				}
-				let validationResult = getValidatorResult(value.validators ?? [], signalForm[key].currentValue())
+				let validationResult = getValidatorResult(signalForm, value.validators ?? [], signalForm[key].currentValue())
 				if (validationResult) {
 					return {state: validatedOptions.errorState, message: validationResult}
 				}
 				return {state: validatedOptions.defaultState, message: null}
 			}),
-			valid: computed(() => !getValidatorResult(value.validators ?? [], signalForm[key].currentValue()))
+			valid: computed(() => !getValidatorResult(signalForm, value.validators ?? [], signalForm[key].currentValue()))
 		}
 	}
 
