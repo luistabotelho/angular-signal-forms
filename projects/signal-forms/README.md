@@ -12,7 +12,7 @@ A simple library to manage forms using signals. Use the provided signalForm<T>()
 
 [GitHub Release Changelogs](https://github.com/luistabotelho/angular-signal-forms/releases)
 
-# Index
+# Topics
 
 - [signalForm()](#signalform)
 - [Classes](#classes)
