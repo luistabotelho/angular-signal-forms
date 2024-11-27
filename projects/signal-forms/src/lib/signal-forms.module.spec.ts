@@ -8,6 +8,7 @@ import { signalForm } from "./signal-forms.module"
 import { signalFormValid } from "./helpers/signal-form-valid.helper";
 import { signalFormValue } from "./helpers/signal-form-value.helper"
 import { signalFormOptionsDefaults } from "./config/defaults.config"
+import { signalFormSetTouched } from "./helpers/signal-form-set-touched.helper"
 
 interface ITestObject {
     field1: string
@@ -153,6 +154,15 @@ describe('signalForms', () => {
             let keys = Object.keys($value()).sort()
             expect(keys).toEqual(originalObjectKeys)
             expect($value().field1).toBe('Placeholder')
+        })
+    })
+
+    describe('signalFormSetTouched', () => {
+        it ('should set all SignalForm fields as touched', () => {
+            signalFormSetTouched(form)
+            Object.entries(form).forEach(([key, field]) => {
+                expect(field.touched()).withContext(key).toBeTrue()
+            })
         })
     })
 })
