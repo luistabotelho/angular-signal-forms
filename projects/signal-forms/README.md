@@ -6,7 +6,7 @@ A simple library to manage forms using signals. Use the provided signalForm<T>()
 
 Documentation being updated...
 
-# Example
+# Example Component
 
 ## Typescript
 ``` typescript
@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 
 interface DataType {
   field1: string
+  field1Child: string
   field2: string
   dateField: string
 }
@@ -37,8 +38,14 @@ export class AppComponent {
       initialValue: "",
       validators: [
         (val) => !val ? new Error("Required") : null,
-        (val) => !RegExp(/^[A-Z]{1}/).test(val) ? new Error("First letter must be upper case") : null,
-        (val) => val.length > 10 ? new Error("Must not exceed 10 characters") : null
+        (val) => val && !RegExp(/^[A-Z]{1}/).test(val) ? new Error("First letter must be upper case") : null,
+        (val) => val && val.length > 10 ? new Error("Must not exceed 10 characters") : null
+      ]
+    },
+    field1Child: {
+      initialValue: "",
+      validators: [
+        (val, form) => !val && form.field1.currentValue() ? new Error("Required if Field 1 contains a value") : null,
       ]
     },
     field2: {
@@ -57,16 +64,14 @@ export class AppComponent {
   $formErrors = signalFormErrors(this.form)
   $formValid = signalFormValid(this.form)
 
-  resetForm() {
-    resetSignalForm(this.form)
-  }
+  resetForm = () => resetSignalForm(this.form)
 }
 ```
 
 # HTML
 ``` html
 <div>
-    <label for="field1">Text Input</label>
+    <label for="field1">Text Input 1</label>
     <br>
     <input 
     id="field1"
@@ -78,7 +83,22 @@ export class AppComponent {
     <br>
     State: {{form.field1.state().state}} : {{form.field1.state().message}}
 </div>
-<br><br><div>
+<br><br>
+<div>
+    <label for="field1Child">Text Input 2 Depends on Text Input 1</label>
+    <br>
+    <input 
+    id="field1Child"
+    type="text"
+    (blur)="form.field1Child.touched.set(true)"
+    [(ngModel)]="form.field1Child.currentValue">
+    <br>
+    Touched: {{form.field1Child.touched()}}
+    <br>
+    State: {{form.field1Child.state().state}} : {{form.field1Child.state().message}}
+</div>
+<br><br>
+<div>
     <label for="field2">Text Input with no Validations</label>
     <br>
     <input 
