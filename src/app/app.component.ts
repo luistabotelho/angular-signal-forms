@@ -45,7 +45,5 @@ export class AppComponent {
   $formErrors = signalFormErrors(this.form)
   $formValid = signalFormValid(this.form)
 
-  resetForm() {
-    resetSignalForm(this.form)
-  }
+  resetForm = () => resetSignalForm(this.form)
 }
