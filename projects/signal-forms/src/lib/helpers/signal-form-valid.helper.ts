@@ -7,13 +7,15 @@ import { SignalForm } from "../interfaces/signal-forms.interface"
  * @returns a boolean Signal representing the form validity
  */
 export function signalFormValid<T>(signalForm: SignalForm<T>): Signal<boolean> {
-	return computed(() => {
-		for (let key in signalForm) {
-			let field = signalForm[key]
-			if (!field.valid()) {
-				return false
-			}
+	return computed(() => getSignalFormValid(signalForm))
+}
+
+export function getSignalFormValid<T>(signalForm: SignalForm<T>) {
+	for (let key in signalForm) {
+		let field = signalForm[key]
+		if (!field.valid()) {
+			return false
 		}
-		return true
-	})
+	}
+	return true
 }
