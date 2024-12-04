@@ -61,10 +61,56 @@
     Current Value: {{$formValue() | json}}
     <br>
     All Errors: {{$formErrors() | json}}
+</div>
+<br><br>
+<div>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @for (item of $tableData.data(); track $index) {
+                <tr>
+                    <td>
+                        <input type="text" [(ngModel)]="item.id.currentValue">
+                    </td>
+                    <td>
+                        <input type="text" [(ngModel)]="item.name.currentValue">
+                    </td>
+                    <td>
+                        <button (click)="$tableData.removeItem($index)">Delete</button>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3">
+                    <button (click)="$tableData.addItem()">Add</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<br><br>
+<div>
+    Table Valid: {{$tableValid()}}
+    <br>
+    Table Errors: {{$tableErrors() | json}}
+    <br>
+    Table Value: {{$tableValue() | json}}
+</div>
+<br><br>
+<div>
+    Complete Valid: {{$completeValid()}}
+    <br>
+    Complete Errors: {{$completeErrors() | json}}
+    <br>
+    Complete Value: {{$completeValue() | json}}
     <br><br>
     <button (click)="resetForm()">Reset Form</button>
     <br>
     <button (click)="submit()">Submit</button>
     <br>
-    <button (click)="submit()" [disabled]="!$formValid()">Submit If Valid</button>
+    <button (click)="submit()" [disabled]="!$completeValid()">Submit If Valid</button>
 </div>
