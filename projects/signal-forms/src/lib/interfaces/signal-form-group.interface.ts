@@ -3,7 +3,7 @@ import { SignalForm } from "./signal-forms.interface";
 
 export type SignalFormGroup<T> = {
     data: WritableSignal<Array<SignalForm<T>>>
-    addItem(): void
+    addItem(value?: Partial<T>): void
     removeItem(index: number): void
     value(): Signal<Array<T>>
     valid(): Signal<boolean>

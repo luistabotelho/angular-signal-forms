@@ -179,9 +179,17 @@ describe('signalFormGroup', () => {
     })
 
     describe('.addItem()', () => {
-        it('should allow adding an item', () => {
+        it('should allow adding a new item', () => {
             formGroup.addItem()
             expect(formGroup.data().length).withContext('signalFormGroup.length').toBe(2)
+        })
+
+        it('should allow adding an existing item', () => {
+            let field1Value = "Existing DB Value"
+            formGroup.addItem({
+                field1: field1Value
+            })
+            expect(formGroup.data()[1].field1.currentValue()).toBe(field1Value)
         })
     })
 
