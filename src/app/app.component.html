@@ -61,12 +61,6 @@
     Current Value: {{$formValue() | json}}
     <br>
     All Errors: {{$formErrors() | json}}
-    <br><br>
-    <button (click)="resetForm()">Reset Form</button>
-    <br>
-    <button (click)="submit()">Submit</button>
-    <br>
-    <button (click)="submit()" [disabled]="!$formValid()">Submit If Valid</button>
 </div>
 <br><br>
 <div>
@@ -113,4 +107,10 @@
     Complete Errors: {{$completeErrors() | json}}
     <br>
     Complete Value: {{$completeValue() | json}}
+    <br><br>
+    <button (click)="resetForm()">Reset Form</button>
+    <br>
+    <button (click)="submit()">Submit</button>
+    <br>
+    <button (click)="submit()" [disabled]="!$completeValid()">Submit If Valid</button>
 </div>

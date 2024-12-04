@@ -81,11 +81,17 @@ export class AppComponent {
     ]
   }))
 
-  resetForm = () => resetSignalForm(this.form)
+  resetForm = () => {
+    resetSignalForm(this.form)
+    this.$tableData.data.set([])
+  }
   
   submit() {
     signalFormSetTouched(this.form)
-    if (!this.$formValid()) {
+    this.$tableData.data().forEach(tableForm => {
+      signalFormSetTouched(tableForm)
+    })
+    if (!this.$completeValid()) {
       return
     }
     // submit to server
