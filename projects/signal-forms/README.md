@@ -15,6 +15,12 @@ A simple library to manage forms using signals. Use the provided signalForm<T>()
 # Topics
 
 - [signalForm()](#signalform)
+- [signalFormGroup()](#signalformgroup)
+  - [data](#data)
+  - [addItem()](#additem)
+  - [removeItem()](#removeitem)
+  - [valid()](#valid)
+  - [errors()](#errors)
 - [Classes](#classes)
   - [T](#t)
   - [K](#k)
@@ -41,7 +47,7 @@ This function returns a new instance of [SignalForm\<T>](#signalformt) where [T]
 
 Examples:
 
-``` typescript
+```typescript
 form1 = signalForm({
   field1: {
     initialValue: ""
@@ -55,6 +61,54 @@ form2 = signalForm<DataType>({
   }
 })
 ```
+
+# `signalFormGroup()`
+
+The `signalFormGroup<T>(initialValue, options?)` function works in a similar way as the [signalForm()](#signalform) function, except it generates a [SignalFormGroup\<T>](#signalformgroupt), which is a wrapper around an array of [SignalForm\<T>](#signalformt), allowing to quickly add and remove a SignalForm from the group, as well as get validation, errors and values from it.
+
+The function accepts the same inputs as [signalForm()](#signalform), and those are passed down to the individual members of the group.
+
+Examples:
+
+```typescript
+formGroup = signalFormGroup<DataType>({
+  field1: {
+    initialValue: ""
+  }
+})
+formGroup2 = signalFormGroup<DataType>({
+  field1: {
+    initialValue: ""
+  }
+}, {
+  requireTouched: true,
+  defaultState: "success"
+})
+```
+
+## `.data`
+
+A `WritableSignal<Array<SignalForm<T>>>`. This signal can be manipulated manually or with help of the other SignalFormGroup methods.
+
+## `.addItem()`
+
+Allows adding a new item to the group. This accepts an optional object of type [Partial\<T>](#t) as an input to pre-fill the form fields. If not passed the SignalForm will be created with the initialValue supplied to the group.
+
+## `.removeItem()`
+
+Allows removing an item from the group by passing it's index in the array.
+
+## `.value()`
+
+Returns a signal with the value as `Array<T>`. This is the same as applying [signalFormValue()](#signalformvalue) to all members of the group and joining the result in a single array.
+
+## `.valid()`
+
+Returns a signal of boolean representing the validity of all members of the group. This is the same as applying [signalFormValid()](#signalformvalid) on all members of the group.
+
+## `.errors()`
+
+Returns a signal with an `Array<string>` containing all the errors of the group members in format: "{fieldKey}: {error}". (If two members have the same error the error will appear dupplicated in the array).
 
 # Classes
 
@@ -124,6 +178,10 @@ A Signal containing the current input [State](#state-1)
 ### valid
 
 A Signal containing a boolean that represents if the field is valid or not based on the [validators](#validators)
+
+## `SignalFormGroup<T>`
+
+
 
 ## `SignalFormDefinition<T>`
 
