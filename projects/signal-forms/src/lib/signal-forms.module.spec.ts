@@ -65,11 +65,11 @@ describe('signalForms', () => {
 
     it('should contain all form fields', () => {
         let keys = Object.keys(form.field1).sort()
-        expect(keys).toEqual(['currentValue', 'initialValue', 'state', 'touched', 'valid', 'validators'].sort())
+        expect(keys).toEqual(['currentValue', 'initialValue', 'state', 'stateMessage', 'touched', 'valid', 'validators'].sort())
     })
 
     it('should require touched by default', () => {
-        expect(form.field3.state().state).toBe(signalFormOptionsDefaults.defaultState)
+        expect(form.field3.state()).toBe(signalFormOptionsDefaults.defaultState)
     })
 
     it('should allow touched to be optional', () => {
@@ -77,13 +77,13 @@ describe('signalForms', () => {
     })
 
     it('should allow customizing state', () => {
-        expect(customForm.field1.state().state).toBe('myDefault')
+        expect(customForm.field1.state()).toBe('myDefault')
         customForm.field3.touched.set(true)
-        expect(customForm.field3.state().state).toBe('myError')
+        expect(customForm.field3.state()).toBe('myError')
     })
 
     it('should return the validator message', () => {
-        expect(customForm.field3.state().message).toBe("Must be after 2024-11-21")
+        expect(customForm.field3.stateMessage()).toBe("Must be after 2024-11-21")
     })
 
     it('should allow partial options', () => {
@@ -98,7 +98,7 @@ describe('signalForms', () => {
             requireTouched: false
         })
         expect(localForm.test.touched()).toBeFalse()
-        expect(localForm.test.state().state).toBe(signalFormOptionsDefaults.errorState)
+        expect(localForm.test.state()).toBe(signalFormOptionsDefaults.errorState)
     })
 
     it('should allow validating one field based on another field', () => {
@@ -106,7 +106,8 @@ describe('signalForms', () => {
         form.field1.touched.set(true)
         form.field1Child.touched.set(true)
         expect(form.field1Child.valid()).toBeFalse()
-        expect(form.field1Child.state()).toEqual({state: signalFormOptionsDefaults.errorState, message: "Required if field1 given"})
+        expect(form.field1Child.state()).toEqual(signalFormOptionsDefaults.errorState)
+        expect(form.field1Child.stateMessage()).toEqual("Required if field1 given")
     })
 
     describe('resetSignalForm', () => {
