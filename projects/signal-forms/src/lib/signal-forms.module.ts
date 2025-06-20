@@ -27,19 +27,20 @@ export function signalForm<T>(
 		signalForm[key] = {
 			initialValue: value.initialValue,
 			validators: value.validators ?? [],
-			currentValue: signal(value.initialValue),
-			touched: signal(false),
-			state: computed(() => {
-				if (validatedOptions.requireTouched && !signalForm[key].touched()) {
-					return {state: validatedOptions.defaultState, message: null}
+			$currentValue: signal(value.initialValue),
+			$touched: signal(false),
+			$state: computed(() => {
+				if (validatedOptions.requireTouched && !signalForm[key].$touched()) {
+					return validatedOptions.defaultState
 				}
-				let validationResult = getValidatorResult(signalForm, value.validators ?? [], signalForm[key].currentValue())
+				let validationResult = getValidatorResult(signalForm, value.validators ?? [], signalForm[key].$currentValue())
 				if (validationResult) {
-					return {state: validatedOptions.errorState, message: validationResult}
+					return validatedOptions.errorState
 				}
-				return {state: validatedOptions.defaultState, message: null}
+				return validatedOptions.defaultState
 			}),
-			valid: computed(() => !getValidatorResult(signalForm, value.validators ?? [], signalForm[key].currentValue()))
+			$stateMessage: computed(() => getValidatorResult(signalForm, value.validators ?? [], signalForm[key].$currentValue())),
+			$valid: computed(() => !getValidatorResult(signalForm, value.validators ?? [], signalForm[key].$currentValue()))
 		}
 	}
 

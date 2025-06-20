@@ -4,12 +4,12 @@
     <input 
     id="field1"
     type="text"
-    (blur)="form.field1.touched.set(true)"
-    [(ngModel)]="form.field1.currentValue">
+    (focus)="form.field1.$touched.set(true)"
+    [(ngModel)]="form.field1.$currentValue">
     <br>
-    Touched: {{form.field1.touched()}}
+    Touched: {{form.field1.$touched()}}
     <br>
-    State: {{form.field1.state().state}} : {{form.field1.state().message}}
+    State: {{form.field1.$state()}} : {{form.field1.$stateMessage()}}
 </div>
 <br><br>
 <div>
@@ -18,12 +18,12 @@
     <input 
     id="field1Child"
     type="text"
-    (blur)="form.field1Child.touched.set(true)"
-    [(ngModel)]="form.field1Child.currentValue">
+    (focus)="form.field1Child.$touched.set(true)"
+    [(ngModel)]="form.field1Child.$currentValue">
     <br>
-    Touched: {{form.field1Child.touched()}}
+    Touched: {{form.field1Child.$touched()}}
     <br>
-    State: {{form.field1Child.state().state}} : {{form.field1Child.state().message}}
+    State: {{form.field1Child.$state()}} : {{form.field1Child.$stateMessage()}}
 </div>
 <br><br>
 <div>
@@ -32,12 +32,12 @@
     <input 
     id="field2"
     type="text"
-    (blur)="form.field2.touched.set(true)"
-    [(ngModel)]="form.field2.currentValue">
+    (focus)="form.field2.$touched.set(true)"
+    [(ngModel)]="form.field2.$currentValue">
     <br>
-    Touched: {{form.field2.touched()}}
+    Touched: {{form.field2.$touched()}}
     <br>
-    State: {{form.field2.state().state}} : {{form.field2.state().message}}
+    State: {{form.field2.$state()}} : {{form.field2.$stateMessage()}}
 </div>
 <br><br>
 <div>
@@ -46,13 +46,13 @@
     <input 
     id="dateField"
     type="datetime-local"
-    (blur)="form.dateField.touched.set(true)"
-    [(ngModel)]="form.dateField.currentValue"
+    (focus)="form.dateField.$touched.set(true)"
+    [(ngModel)]="form.dateField.$currentValue"
     >
     <br>
-    Touched: {{form.dateField.touched()}}
+    Touched: {{form.dateField.$touched()}}
     <br>
-    State: {{form.dateField.state().state}} : {{form.dateField.state().message}}
+    State: {{form.dateField.$state()}} : {{form.dateField.$stateMessage()}}
 </div>
 <br><br>
 <div>
@@ -71,13 +71,13 @@
             <th></th>
         </thead>
         <tbody>
-            @for (item of $tableData.data(); track $index) {
+            @for (item of $tableData.$data(); track $index) {
                 <tr>
                     <td>
-                        <input type="text" [(ngModel)]="item.id.currentValue">
+                        <input type="text" [(ngModel)]="item.id.$currentValue">
                     </td>
                     <td>
-                        <input type="text" [(ngModel)]="item.name.currentValue">
+                        <input type="text" [(ngModel)]="item.name.$currentValue">
                     </td>
                     <td>
                         <button (click)="$tableData.removeItem($index)">Delete</button>

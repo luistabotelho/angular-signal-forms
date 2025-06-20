@@ -13,9 +13,9 @@ export function signalFormGroup<T>(
     options?: SignalFormOptions
 ): SignalFormGroup<T> {
     return {
-        data: signal<Array<SignalForm<T>>>([]),
+        $data: signal<Array<SignalForm<T>>>([]),
         addItem(value?: Partial<T>) {
-            this.data.update(current => {
+            this.$data.update(current => {
                 let newSignalForm = signalForm(initialValue, options)
                 setExistingValues(newSignalForm, value)
                 return [
@@ -25,19 +25,19 @@ export function signalFormGroup<T>(
             })
         },
         removeItem(index: number) {
-            this.data.update(current => {
+            this.$data.update(current => {
                 current.splice(index, 1)
                 return [...current]
             })
         },
         value() {
-            return computed(() => this.data().map(form => getSignalFormValue(form)))
+            return computed(() => this.$data().map(form => getSignalFormValue(form)))
         },
         valid() {
-            return computed(() => this.data().every(form => getSignalFormValid(form)))
+            return computed(() => this.$data().every(form => getSignalFormValid(form)))
         },
         errors() {
-            return computed(() => this.data().map(form => getSignalFormErrors(form)).flat())
+            return computed(() => this.$data().map(form => getSignalFormErrors(form)).flat())
         },
     }
 }
@@ -47,8 +47,8 @@ function setExistingValues<T>(form: SignalForm<T>, value?: Partial<T>) {
         for (let key in form) {
             let fieldValue = value[key]
             if (fieldValue) {
-                form[key].currentValue.set(fieldValue)
-                form[key].touched.set(true)
+                form[key].$currentValue.set(fieldValue)
+                form[key].$touched.set(true)
             }
         }
     }
