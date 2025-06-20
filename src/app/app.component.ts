@@ -1,7 +1,6 @@
 import { Component, computed } from '@angular/core';
-import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup } from '../../projects/signal-forms/src/public-api';
+import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup, signalFormErrors } from '../../projects/signal-forms/src/public-api';
 import { FormsModule } from '@angular/forms';
-import { signalFormErrors } from '../../projects/signal-forms/src/lib/helpers/signal-form-errors.helper';
 import { CommonModule } from '@angular/common';
 
 interface DataType {
