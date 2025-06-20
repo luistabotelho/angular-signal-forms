@@ -8,7 +8,7 @@ export function signalFormValue<T>(signalForm: SignalForm<T>) {
 export function getSignalFormValue<T>(signalForm: SignalForm<T>) {
 	let output: Record<string | number | symbol, unknown> = {}
 	for (let key in signalForm) {
-		output[key] = signalForm[key].currentValue()
+		output[key] = signalForm[key].$currentValue()
 	}
 	return output as T
 }

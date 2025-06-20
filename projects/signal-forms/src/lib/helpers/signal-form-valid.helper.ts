@@ -13,7 +13,7 @@ export function signalFormValid<T>(signalForm: SignalForm<T>): Signal<boolean> {
 export function getSignalFormValid<T>(signalForm: SignalForm<T>) {
 	for (let key in signalForm) {
 		let field = signalForm[key]
-		if (!field.valid()) {
+		if (!field.$valid()) {
 			return false
 		}
 	}

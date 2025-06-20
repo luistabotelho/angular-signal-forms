@@ -11,6 +11,6 @@ import { SignalForm } from "../interfaces/signal-forms.interface";
 export function signalFormSetTouched<T>(form: SignalForm<T>) {
     for (let key in form) {
         let field = form[key]
-        field.touched.set(true)
+        field.$touched.set(true)
     }
 }

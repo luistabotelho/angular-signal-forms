@@ -11,7 +11,7 @@ export function getSignalFormErrors<T>(signalForm: SignalForm<T>) {
         let field = signalForm[key]
         let validatorList = field.validators
         for (let validator of validatorList) {
-            let result = validator(field.currentValue(), signalForm)
+            let result = validator(field.$currentValue(), signalForm)
             if (result) {
                 errors.push(`${key}: ${result.message}`)
             }

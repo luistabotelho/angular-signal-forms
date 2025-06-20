@@ -35,7 +35,7 @@ export class AppComponent {
     field1Child: {
       initialValue: "",
       validators: [
-        (val, form) => !val && form.field1.currentValue() ? new Error("Required if Field 1 contains a value") : null,
+        (val, form) => !val && form.field1.$currentValue() ? new Error("Required if Field 1 contains a value") : null,
       ]
     },
     field2: {
@@ -82,12 +82,12 @@ export class AppComponent {
 
   resetForm = () => {
     resetSignalForm(this.form)
-    this.$tableData.data.set([])
+    this.$tableData.$data.set([])
   }
   
   submit() {
     signalFormSetTouched(this.form)
-    this.$tableData.data().forEach(tableForm => {
+    this.$tableData.$data().forEach(tableForm => {
       signalFormSetTouched(tableForm)
     })
     if (!this.$completeValid()) {
