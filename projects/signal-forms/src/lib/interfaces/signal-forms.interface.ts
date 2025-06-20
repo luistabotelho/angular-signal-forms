@@ -1,5 +1,4 @@
 import { Signal, WritableSignal } from "@angular/core"
-import { State } from "./state.interface"
 import { ValidatorFunction } from "./validator-function.interface"
 
 export type SignalForm<T> = {
@@ -8,7 +7,8 @@ export type SignalForm<T> = {
         validators: Array<ValidatorFunction<T, T[K]>>,
         currentValue: WritableSignal<T[K]>,
         touched: WritableSignal<boolean>,
-        state: Signal<State>,
+        state: Signal<string>,
+        stateMessage: Signal<string | null>,
         valid: Signal<boolean>
     }
 }
