@@ -65,7 +65,7 @@ describe('signalForms', () => {
 
     it('should contain all form fields', () => {
         let keys = Object.keys(form.field1).sort()
-        expect(keys).toEqual(['currentValue', 'initialValue', 'state', 'stateMessage', 'touched', 'valid', 'validators'].sort())
+        expect(keys).toEqual(['$currentValue', 'initialValue', '$state', '$stateMessage', '$touched', '$valid', 'validators'].sort())
     })
 
     it('should require touched by default', () => {
