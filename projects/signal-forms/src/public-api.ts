@@ -11,6 +11,10 @@ export {signalFormValue} from './lib/helpers/signal-form-value.helper'
 export {signalFormSetTouched} from './lib/helpers/signal-form-set-touched.helper'
 export {signalFormErrors} from './lib/helpers/signal-form-errors.helper'
 
+export {signalFormGroupErrors} from './lib/helpers/signal-form-group-errors.helper'
+export {signalFormGroupValid} from './lib/helpers/signal-form-group-valid.helper'
+export {signalFormGroupValue} from './lib/helpers/signal-form-group-value.helper'
+
 export {SignalForm} from './lib/interfaces/signal-forms.interface'
 export {SignalFormOptions} from './lib/interfaces/signal-forms-options.interface'
 export {SignalFormDefinition} from './lib/interfaces/signal-forms-definition.interface'
