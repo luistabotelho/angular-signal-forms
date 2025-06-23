@@ -1,16 +1,6 @@
-
-import { resetSignalForm } from "./helpers/reset-signal-form.helper"
 import { getValidatorResult } from "./helpers/run-validators.helper"
-import { signalFormErrors } from "./helpers/signal-form-errors.helper"
-import { SignalFormDefinition } from "./interfaces/signal-forms-definition.interface"
-import { SignalForm } from "./interfaces/signal-forms.interface"
-import { signalForm } from "./signal-forms.module"
-import { signalFormValid } from "./helpers/signal-form-valid.helper";
-import { signalFormValue } from "./helpers/signal-form-value.helper"
+import { resetSignalForm, SignalForm, SignalFormGroup, signalForm, SignalFormDefinition, signalFormErrors, signalFormGroup, signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue, signalFormSetTouched, signalFormValid, signalFormValue } from "../public-api"
 import { signalFormOptionsDefaults } from "./config/defaults.config"
-import { signalFormSetTouched } from "./helpers/signal-form-set-touched.helper"
-import { signalFormGroup } from "./signal-form-group.module"
-import { SignalFormGroup } from "./interfaces/signal-form-group.interface"
 
 interface ITestObject {
     field1: string
@@ -204,7 +194,7 @@ describe('signalFormGroup', () => {
         })
     })
 
-    describe('.valid()', () => {
+    describe('signalFormGroupValid()', () => {
         it('should return a signal validating all forms', () => {
             let form0 = formGroup.$data()[0]
             let today = new Date()
@@ -213,15 +203,16 @@ describe('signalFormGroup', () => {
             form0.field1Child.$currentValue.set("Also Valid")
             form0.field2.$currentValue.set(1)
             form0.field3.$currentValue.set(today)
-            expect(formGroup.valid()()).withContext('form group with single valid item').toBeTrue()
+            let $valid = signalFormGroupValid(formGroup)
+            expect($valid()).withContext('form group with single valid item').toBeTrue()
             formGroup.addItem()
-            expect(formGroup.valid()()).withContext('form group after adding invalid item').toBeFalse()
+            expect($valid()).withContext('form group after adding invalid item').toBeFalse()
         })
     })
 
-    describe('.errors()', () => {
+    describe('signalFormGroupErrors()', () => {
         it('should return a signal containing an array of errors', () => {
-            let $errors = formGroup.errors()
+            let $errors = signalFormGroupErrors(formGroup)
             formGroup.addItem()
             expect($errors()).toBeInstanceOf(Array)
             expect($errors().length).toBe(8)
@@ -231,9 +222,9 @@ describe('signalFormGroup', () => {
         })
     })
 
-    describe('.value()', () => {
+    describe('signalFormGroupValue()', () => {
         it('should return a signal containing an array of T', () => {
-            let formValue = formGroup.value()()
+            let formValue = signalFormGroupValue(formGroup)()
             expect(formValue).toBeInstanceOf(Array)
             expect(formValue[0].field1).toBe('Placeholder')
         })

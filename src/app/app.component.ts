@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup, signalFormErrors } from '../../projects/signal-forms/src/public-api';
+import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup, signalFormErrors, signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue  } from 'signal-forms';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -67,9 +67,9 @@ export class AppComponent {
     }
   })
 
-  $tableValid = this.$tableData.valid()
-  $tableErrors = this.$tableData.errors()
-  $tableValue = this.$tableData.value()
+  $tableValid = signalFormGroupValid(this.$tableData)
+  $tableErrors = signalFormGroupErrors(this.$tableData)
+  $tableValue = signalFormGroupValue(this.$tableData)
 
   $completeValid = computed(() => this.$formValid() && this.$tableValid())
   $completeErrors = computed(() => [...this.$formErrors(), ...this.$tableErrors()])

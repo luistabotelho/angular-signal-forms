@@ -309,10 +309,9 @@ Be aware that this is not required if the [requireTouched](#requiretouched) opti
 
 ## Typescript
 ``` typescript
-import { Component } from '@angular/core';
-import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched } from '../../projects/signal-forms/src/public-api';
+import { Component, computed } from '@angular/core';
+import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup, signalFormErrors, signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue  } from 'signal-forms';
 import { FormsModule } from '@angular/forms';
-import { signalFormErrors } from '../../projects/signal-forms/src/lib/helpers/signal-form-errors.helper';
 import { CommonModule } from '@angular/common';
 
 interface DataType {
@@ -320,6 +319,11 @@ interface DataType {
   field1Child: string
   field2: string
   dateField: string
+}
+
+interface TableItem {
+  id: string
+  name: string
 }
 
 @Component({
@@ -342,7 +346,7 @@ export class AppComponent {
     field1Child: {
       initialValue: "",
       validators: [
-        (val, form) => !val && form.field1.currentValue() ? new Error("Required if Field 1 contains a value") : null,
+        (val, form) => !val && form.field1.$currentValue() ? new Error("Required if Field 1 contains a value") : null,
       ]
     },
     field2: {
@@ -361,16 +365,49 @@ export class AppComponent {
   $formErrors = signalFormErrors(this.form)
   $formValid = signalFormValid(this.form)
 
-  resetForm = () => resetSignalForm(this.form)
+  $tableData = signalFormGroup<TableItem>({
+    id: {
+      initialValue: '',
+      validators: [
+        val => !val ? new Error('Required') : null
+      ]
+    },
+    name: {
+      initialValue: '',
+      validators: undefined
+    }
+  })
+
+  $tableValid = signalFormGroupValid(this.$tableData)
+  $tableErrors = signalFormGroupErrors(this.$tableData)
+  $tableValue = signalFormGroupValue(this.$tableData)
+
+  $completeValid = computed(() => this.$formValid() && this.$tableValid())
+  $completeErrors = computed(() => [...this.$formErrors(), ...this.$tableErrors()])
+  $completeValue = computed(() => ({
+    ...this.$formValue(),
+    table: [
+      ...this.$tableValue()
+    ]
+  }))
+
+  resetForm = () => {
+    resetSignalForm(this.form)
+    this.$tableData.$data.set([])
+  }
   
   submit() {
     signalFormSetTouched(this.form)
-    if (!this.$formValid()) {
+    this.$tableData.$data().forEach(tableForm => {
+      signalFormSetTouched(tableForm)
+    })
+    if (!this.$completeValid()) {
       return
     }
     // submit to server
   }
 }
+
 ```
 
 # HTML
@@ -381,12 +418,12 @@ export class AppComponent {
     <input 
     id="field1"
     type="text"
-    (blur)="form.field1.touched.set(true)"
-    [(ngModel)]="form.field1.currentValue">
+    (focus)="form.field1.$touched.set(true)"
+    [(ngModel)]="form.field1.$currentValue">
     <br>
-    Touched: {{form.field1.touched()}}
+    Touched: {{form.field1.$touched()}}
     <br>
-    State: {{form.field1.state().state}} : {{form.field1.state().message}}
+    State: {{form.field1.$state()}} : {{form.field1.$stateMessage()}}
 </div>
 <br><br>
 <div>
@@ -395,12 +432,12 @@ export class AppComponent {
     <input 
     id="field1Child"
     type="text"
-    (blur)="form.field1Child.touched.set(true)"
-    [(ngModel)]="form.field1Child.currentValue">
+    (focus)="form.field1Child.$touched.set(true)"
+    [(ngModel)]="form.field1Child.$currentValue">
     <br>
-    Touched: {{form.field1Child.touched()}}
+    Touched: {{form.field1Child.$touched()}}
     <br>
-    State: {{form.field1Child.state().state}} : {{form.field1Child.state().message}}
+    State: {{form.field1Child.$state()}} : {{form.field1Child.$stateMessage()}}
 </div>
 <br><br>
 <div>
@@ -409,12 +446,12 @@ export class AppComponent {
     <input 
     id="field2"
     type="text"
-    (blur)="form.field2.touched.set(true)"
-    [(ngModel)]="form.field2.currentValue">
+    (focus)="form.field2.$touched.set(true)"
+    [(ngModel)]="form.field2.$currentValue">
     <br>
-    Touched: {{form.field2.touched()}}
+    Touched: {{form.field2.$touched()}}
     <br>
-    State: {{form.field2.state().state}} : {{form.field2.state().message}}
+    State: {{form.field2.$state()}} : {{form.field2.$stateMessage()}}
 </div>
 <br><br>
 <div>
@@ -423,13 +460,13 @@ export class AppComponent {
     <input 
     id="dateField"
     type="datetime-local"
-    (blur)="form.dateField.touched.set(true)"
-    [(ngModel)]="form.dateField.currentValue"
+    (focus)="form.dateField.$touched.set(true)"
+    [(ngModel)]="form.dateField.$currentValue"
     >
     <br>
-    Touched: {{form.dateField.touched()}}
+    Touched: {{form.dateField.$touched()}}
     <br>
-    State: {{form.dateField.state().state}} : {{form.dateField.state().message}}
+    State: {{form.dateField.$state()}} : {{form.dateField.$stateMessage()}}
 </div>
 <br><br>
 <div>
@@ -438,11 +475,57 @@ export class AppComponent {
     Current Value: {{$formValue() | json}}
     <br>
     All Errors: {{$formErrors() | json}}
+</div>
+<br><br>
+<div>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @for (item of $tableData.$data(); track $index) {
+                <tr>
+                    <td>
+                        <input type="text" [(ngModel)]="item.id.$currentValue">
+                    </td>
+                    <td>
+                        <input type="text" [(ngModel)]="item.name.$currentValue">
+                    </td>
+                    <td>
+                        <button (click)="$tableData.removeItem($index)">Delete</button>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3">
+                    <button (click)="$tableData.addItem()">Add</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<br><br>
+<div>
+    Table Valid: {{$tableValid()}}
+    <br>
+    Table Errors: {{$tableErrors() | json}}
+    <br>
+    Table Value: {{$tableValue() | json}}
+</div>
+<br><br>
+<div>
+    Complete Valid: {{$completeValid()}}
+    <br>
+    Complete Errors: {{$completeErrors() | json}}
+    <br>
+    Complete Value: {{$completeValue() | json}}
     <br><br>
     <button (click)="resetForm()">Reset Form</button>
     <br>
     <button (click)="submit()">Submit</button>
     <br>
-    <button (click)="submit()" [disabled]="!$formValid()">Submit If Valid</button>
+    <button (click)="submit()" [disabled]="!$completeValid()">Submit If Valid</button>
 </div>
 ```
