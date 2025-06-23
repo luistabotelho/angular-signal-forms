@@ -10,7 +10,7 @@ import { signalForm } from "./signal-forms.module";
 
 export function signalFormGroup<T>(
     initialValue: SignalFormDefinition<T>,
-    options?: SignalFormOptions
+    options?: Partial<SignalFormOptions>
 ): SignalFormGroup<T> {
     return {
         $data: signal<Array<SignalForm<T>>>([]),
