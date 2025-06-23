@@ -1,17 +1,6 @@
-
-import { resetSignalForm } from "./helpers/reset-signal-form.helper"
 import { getValidatorResult } from "./helpers/run-validators.helper"
-import { signalFormErrors } from "./helpers/signal-form-errors.helper"
-import { SignalFormDefinition } from "./interfaces/signal-forms-definition.interface"
-import { SignalForm } from "./interfaces/signal-forms.interface"
-import { signalForm } from "./signal-forms.module"
-import { signalFormValid } from "./helpers/signal-form-valid.helper";
-import { signalFormValue } from "./helpers/signal-form-value.helper"
+import { resetSignalForm, SignalForm, SignalFormGroup, signalForm, SignalFormDefinition, signalFormErrors, signalFormGroup, signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue, signalFormSetTouched, signalFormValid, signalFormValue } from "../public-api"
 import { signalFormOptionsDefaults } from "./config/defaults.config"
-import { signalFormSetTouched } from "./helpers/signal-form-set-touched.helper"
-import { signalFormGroup } from "./signal-form-group.module"
-import { SignalFormGroup } from "./interfaces/signal-form-group.interface"
-import { signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue } from "signal-forms"
 
 interface ITestObject {
     field1: string
