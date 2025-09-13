@@ -1,7 +1,8 @@
 import { Component, computed } from '@angular/core';
-import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup, signalFormErrors, signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue, Email, MaxLength, MinLength, RegExp, Required } from 'signal-forms';
+import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup, signalFormErrors, signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue } from '@luistabotelho/angular-signal-forms';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Email, MaxLength, MinLength, RegularExpression, Required } from '@luistabotelho/angular-signal-forms/validators';
 
 interface DataType {
   field1: string
@@ -29,7 +30,7 @@ export class AppComponent {
       validators: [
         Required(),
         MinLength(2),
-        RegExp(/^[A-Z]{1}/, "First digit must be upper case letter"),
+        RegularExpression(/^[A-Z]{1}/, "First digit must be upper case letter"),
         MaxLength(10)
       ]
     },
