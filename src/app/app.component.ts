@@ -1,7 +1,8 @@
 import { Component, computed } from '@angular/core';
-import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup, signalFormErrors, signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue  } from 'signal-forms';
+import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup, signalFormErrors, signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue } from '@luistabotelho/angular-signal-forms';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Email, MaxLength, MinLength, RegularExpression, Required } from '@luistabotelho/angular-signal-forms/validators';
 
 interface DataType {
   field1: string
@@ -27,15 +28,17 @@ export class AppComponent {
     field1: {
       initialValue: "",
       validators: [
-        (val) => !val ? new Error("Required") : null,
-        (val) => val && !RegExp(/^[A-Z]{1}/).test(val) ? new Error("First letter must be upper case") : null,
-        (val) => val && val.length > 10 ? new Error("Must not exceed 10 characters") : null
+        Required(),
+        MinLength(2),
+        RegularExpression(/^[A-Z]{1}/, "First digit must be upper case letter"),
+        MaxLength(10)
       ]
     },
     field1Child: {
       initialValue: "",
       validators: [
         (val, form) => !val && form.field1.$currentValue() ? new Error("Required if Field 1 contains a value") : null,
+        Email()
       ]
     },
     field2: {
@@ -44,7 +47,7 @@ export class AppComponent {
     dateField: {
       initialValue: new Date().toISOString().slice(0, 16),
       validators: [
-        (val) => !val ? new Error("Required") : null,
+        Required("Date field is required!"),
         (val) => val.slice(0, 10) < new Date().toISOString().slice(0, 10) ? new Error("Date cannot be in the past") : null
       ]
     }

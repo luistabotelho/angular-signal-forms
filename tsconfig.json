@@ -16,8 +16,11 @@
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "paths": {
-      "signal-forms": [
+      "@luistabotelho/angular-signal-forms": [
         "./dist/signal-forms"
+      ],
+      "@luistabotelho/angular-signal-forms/*": [
+        "./dist/signal-forms/*"
       ]
     },
     "importHelpers": true,
