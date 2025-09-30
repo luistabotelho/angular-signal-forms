@@ -47,7 +47,7 @@ export class AppComponent {
     dateField: {
       initialValue: new Date().toISOString().slice(0, 16),
       validators: [
-        (val) => !val ? new Error("Required") : null,
+        Required("Date field is required!"),
         (val) => val.slice(0, 10) < new Date().toISOString().slice(0, 10) ? new Error("Date cannot be in the past") : null
       ]
     }

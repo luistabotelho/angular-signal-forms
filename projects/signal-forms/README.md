@@ -29,6 +29,14 @@ A simple library to manage forms using signals. Use the provided signalForm<T>()
   - [SignalFormOptions](#signalformoptions)
   - [State](#state)
   - [ValidatorFunction\<T, K>](#validatorfunctiont-k)
+- [Validators](#validators-2)
+  - [Required()](#required)
+  - [RegularExpression()](#regularexpression)
+  - [Email()](#email)
+  - [MaxLength()](#maxlength)
+  - [MinLength()](#minlength)
+  - [Max()](#max)
+  - [Min()](#min)
 - [Helper Functions](#helper-functions)
   - [resetSignalForm()](#resetsignalform)
   - [signalFormValue()](#signalformvalue)
@@ -265,6 +273,73 @@ Example:
 
 This function will return an error if this fields currentValue is Falsy and otherFields currentValue != "Some Value".
 
+# Validators
+
+Validators are predefined [ValidatorFunctions](#validatorfunctiont-k) made available from @luistabotelho/angular-signal-forms/validators to help simplify basic validation of signal-forms.
+
+Please look at the provided example app on how to use.
+
+## `Required()`
+
+Makes the field required.
+
+- Accepts an optional custom error message. Default: "Required"
+
+Example: `Required("This is required")`.
+
+## `RegularExpression()`
+
+Validates the field agains a provided regular expression using .test()
+
+- Accepts a regular expression to validate against.
+- Accepts an optional custom error message. Default: "Does not match required pattern {pattern}"
+
+Example: `RegularExpression(/^[A-Z]{1}/, "First digit must be upper case letter")`
+
+## `Email()`
+
+Validates the field to be a valid email.
+
+- Accept an optional custom error message. Default: "Must be a valid email"
+
+Example: `Email("Invalid email")`
+
+## `MaxLength()`
+
+Validates the input to have a maximum length of ? characters.
+
+- Accepts the maximum length of the field as a number
+- Accepts an optional custom error message. Default: "Must not exceed {length} characters."
+
+Example: `MaxLength(10, "Too long!")`
+
+## `MinLength()`
+
+Validates the input to have a minimum length of ? characters.
+
+- Accepts the minimum length of the field as a number
+- Accepts an optional custom error message. Default: "Must be at least {length} characters long."
+
+Example: `MinLength(10, "Too short!")`
+
+## `Max()`
+
+Validates the input to have a maximum value of ?.
+
+- Accepts the maximum value of the field
+- Accepts an optional custom error message. Default: "Must be less or equal to {maxValue}"
+
+Example: `Max(10, "Too big!")`
+
+## `Min()`
+
+Validates the input to have a minimum value of ?.
+
+- Accepts the minimum value of the field
+- Accepts an optional custom error message. Default: "Must be greater or equal than {minValue}"
+
+Example: `Min(10, "Too small!")`
+
 # Helper Functions
 
 ## `resetSignalForm()`
@@ -310,9 +385,10 @@ Be aware that this is not required if the [requireTouched](#requiretouched) opti
 ## Typescript
 ``` typescript
 import { Component, computed } from '@angular/core';
-import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup, signalFormErrors, signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue  } from 'signal-forms';
+import { signalForm, signalFormValue, signalFormValid, resetSignalForm, signalFormSetTouched, signalFormGroup, signalFormErrors, signalFormGroupErrors, signalFormGroupValid, signalFormGroupValue } from '@luistabotelho/angular-signal-forms';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Email, MaxLength, MinLength, RegularExpression, Required } from '@luistabotelho/angular-signal-forms/validators';
 
 interface DataType {
   field1: string
@@ -338,15 +414,17 @@ export class AppComponent {
     field1: {
       initialValue: "",
       validators: [
-        (val) => !val ? new Error("Required") : null,
-        (val) => val && !RegExp(/^[A-Z]{1}/).test(val) ? new Error("First letter must be upper case") : null,
-        (val) => val && val.length > 10 ? new Error("Must not exceed 10 characters") : null
+        Required(),
+        MinLength(2),
+        RegularExpression(/^[A-Z]{1}/, "First digit must be upper case letter"),
+        MaxLength(10)
       ]
     },
     field1Child: {
       initialValue: "",
       validators: [
         (val, form) => !val && form.field1.$currentValue() ? new Error("Required if Field 1 contains a value") : null,
+        Email()
       ]
     },
     field2: {
@@ -355,7 +433,7 @@ export class AppComponent {
     dateField: {
       initialValue: new Date().toISOString().slice(0, 16),
       validators: [
-        (val) => !val ? new Error("Required") : null,
+        Required("Date field is required!"),
         (val) => val.slice(0, 10) < new Date().toISOString().slice(0, 10) ? new Error("Date cannot be in the past") : null
       ]
     }
